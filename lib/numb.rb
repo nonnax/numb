@@ -3,6 +3,8 @@
 
 # Id$ nonnax 2022-04-30 11:09:50 +0800
 # non unified mapper, boom!
+require_relative 'view'
+
 class Numb
   class Response < Rack::Response; end
 
@@ -33,11 +35,13 @@ class Numb
       found { u ? on(u, **params, &block) : block.call }
     end
   end
+
   def post(u=nil,**params, &block)
     if req.post?
       found { u ? on(u, **params, &block) : block.call }
     end
   end
+
   def delete(u=nil,**params, &block)
     if req.delete?
       found { u ? on(u, **params, &block) : block.call }
@@ -53,11 +57,11 @@ class Numb
   end
 
   private def found
-    # @once = true
     res.status = 200
     yield
     res.status = 404 if res.body.empty? && res.status == 200
   end
+
   private def run_once
     return if @once
 

@@ -3,6 +3,8 @@
 
 # Id$ nonnax 2022-04-30 11:09:50 +0800
 # non unified mapper, boom!
+require_relative 'view'
+
 class Numb
   class Response < Rack::Response; end
 
@@ -17,9 +19,11 @@ class Numb
     @res = Rack::Response.new(nil, 404)
     @env = env
     @once = false
-    instance_eval(&@block)
-    not_found { res.write 'Not Found' }
-    res.finish
+    catch(:halt){
+      instance_eval(&@block)
+      not_found { res.write 'Not Found' }
+      return res.finish
+    }.call(env)
   end
 
   def on(u, **params)
@@ -48,6 +52,9 @@ class Numb
     env['rack.session']
   end
 
+  def halt(app)
+    throw :halt, app
+  end
   private def found
     res.status = 200
     yield
