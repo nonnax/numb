@@ -23,25 +23,21 @@ class Numb
   end
 
   def on(u, **params)
-    return unless @matched=req.path_info.match?(%r{\A#{u}/?\Z})
+    return unless req.path_info.match?(%r{\A#{u}/?\Z})
 
     found { yield(*params.merge(req.params.transform_keys(&:to_sym)).values) }
   end
 
-  def get(u=nil,**params, &block)
-    if req.get?
-      found { u ? on(u, **params, &block) : block.call }
-    end
+  def get(&block)
+    found(&block) if req.get?
   end
-  def post(u=nil,**params, &block)
-    if req.post?
-      found { u ? on(u, **params, &block) : block.call }
-    end
+
+  def post(&block)
+    found(&block) if req.post?
   end
-  def delete(u=nil,**params, &block)
-    if req.delete?
-      found { u ? on(u, **params, &block) : block.call }
-    end
+
+  def delete(&block)
+    found(&block) if req.delete?
   end
 
   def not_found(&block)
@@ -53,7 +49,6 @@ class Numb
   end
 
   private def found
-    # @once = true
     res.status = 200
     yield
     res.status = 404 if res.body.empty? && res.status == 200

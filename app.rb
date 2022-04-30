@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # Id$ nonnax 2022-04-25 22:40:25 +0800
 require_relative 'lib/numb'
-
+require 'erb'
 # Mapa.settings[:views]='views'
 
 $sum = 0
@@ -14,11 +14,9 @@ Thread.new do # trivial example work thread
 end
 
 App = Numb.new do
-  def erb(s, **x)
-    res.write s
-  end
-  def session
-    {}
+  def erb(s, **locals)
+    res.headers[Rack::CONTENT_TYPE]='text/html'
+    res.write ERB.new(s).result_with_hash(locals)
   end
   #
   # path test first
@@ -29,16 +27,15 @@ App = Numb.new do
 
   on '/tv' do |params|
     get do
-      session[:name]='mapa'
-      erb 'watch:tv:', title: 'tv time'
+      erb 'watch:tv:'+String(session[:name]), title: 'tv time'
     end
   end
 
   # get do
-    on '/login/name' do |name, params|
+    on( '/login', name:'', surname:'') do |name, sur|
       get do
         session[:name]=name
-        erb 'welcome:'+String(session[:name])+String(params), title: 'welcome'
+        erb 'welcome:'+String(session[:name])+String(sur), title: 'welcome'
       end
     end
   # end
