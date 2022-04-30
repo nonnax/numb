@@ -10,7 +10,7 @@ use Rack::Session::Cookie, secret: SecureRandom.hex(64)
 use Rack::Static,
     urls: %w[/images /js /css],
     root: 'public'
-# 
+#
 # App=
 # Numb.new do
   # get '/' do

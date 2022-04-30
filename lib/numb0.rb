@@ -66,4 +66,7 @@ class Numb
     @once = true
     yield
   end
+  def run(&block)
+    halt block.call
+  end
 end
