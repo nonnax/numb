@@ -18,7 +18,7 @@ class Numb
     def erb(doc, **locals)
       res.headers[Rack::CONTENT_TYPE] ||= 'text/html; charset=utf8;'
       doc, layout = prepare(doc, **locals)
-      s = render(layout, **locals){ render(doc, **locals) }
+      s = render(layout, **locals) { render(doc, **locals) }
       res.write s
     end
 
@@ -31,9 +31,8 @@ class Numb
 
     def prepare(doc, **locals)
       ldir =   locals.fetch(:layout, Numb.settings[:layout])
-      doc  =   CACHE[PATH[doc]]  if doc.is_a?(Symbol)
+      doc  =   CACHE[PATH[doc]] if doc.is_a?(Symbol)
       layout = CACHE[PATH[ldir]] rescue '<%=yield%>'
-               locals.fetch(:layout, layout)
       [String(doc), layout]
     end
   end

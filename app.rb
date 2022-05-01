@@ -35,10 +35,10 @@ App = Numb.new do
 
   #
   # method first test
-  #
+  # url with slug. ie /url/:slug
   get do
-    on '/any/:any', default: 'default' do |any, params|
-      erb 'watch:'+String(any)+String(params), title: 'movie time'
+    on '/any/:slug', default: 'default' do |slug, params|
+      erb 'watch:'+String(slug)+String(params), title: 'movie time'
     end
 
     on( '/login', name:'', surname:'') do |name, sur|
