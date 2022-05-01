@@ -29,10 +29,11 @@ class Numb
       ERB.new(text, trim_mode: '%').result(new_b)
     end
 
-    def prepare(doc, **_locals)
-      ldir =   Numb.settings[:layout]
+    def prepare(doc, **locals)
+      ldir =   locals.fetch(:layout, Numb.settings[:layout])
       doc  =   CACHE[PATH[doc]]  if doc.is_a?(Symbol)
       layout = CACHE[PATH[ldir]] rescue '<%=yield%>'
+               locals.fetch(:layout, layout)
       [String(doc), layout]
     end
   end
