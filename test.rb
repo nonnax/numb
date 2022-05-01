@@ -27,10 +27,10 @@ class TestApp < Test::Unit::TestCase
     assert_equal last_response.status, 302
   end
 
-  def test_login_get
-    get '/login'
+  def test_login_session_get
+    get '/login', name: 'nonnax'
     assert_equal last_response.status, 200
-    # assert last_response.body.include?('name')
+    assert last_response.body.include?('nonnax')
   end
 
   def test_login_post
@@ -43,9 +43,21 @@ class TestApp < Test::Unit::TestCase
     assert_equal last_response.status, 200
   end
 
+  # numb.rb only
+  # def test_method_with_urls
+    # get '/all'
+    # assert_equal last_response.status, 200
+  # end
+
+  # def test_method_with_url_with_params
+    # get '/all', arg:'arg'
+    # assert_equal last_response.status, 200
+    # assert last_response.body.include?('arg')
+  # end
+
   def test_any
     get '/any', options: 'default'
-    # assert last_response.ok?
+    assert last_response.ok?
     assert_equal last_response.status, 200
     assert last_response.body.match?('default')
   end
