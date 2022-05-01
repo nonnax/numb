@@ -25,9 +25,22 @@ class Numb
   end
 
   def on(u, **params)
-    return unless @matched=req.path_info.match?(%r{\A#{u}/?\Z})
+    return unless match(u, **params)
 
-    found { yield(*params.merge(req.params.transform_keys(&:to_sym)).values) }
+    found { yield *@captures }
+  end
+
+  def match(u, **params)
+    req.path_info.match(pattern(u))
+       .tap { |md|
+        cap = Array(md&.captures)
+        @captures = [cap, params.merge(req.params.transform_keys(&:to_sym)).values].flatten.compact
+       }
+  end
+
+  def pattern(u)
+    u.gsub(/:\w+/) { '([^/?#]+)' }
+     .then { |comp| %r{^#{comp}/?$} }
   end
 
   def get(u=nil,**params, &block)

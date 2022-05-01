@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # Id$ nonnax 2022-04-25 22:40:25 +0800
-require_relative 'lib/numb0'
+require_relative 'lib/numb'
 
 Numb.settings[:layout]='layout_001'
 
@@ -37,8 +37,8 @@ App = Numb.new do
   # method first test
   #
   get do
-    on '/any' do |any|
-      erb 'watch:any'+String(any), title: 'movie time'
+    on '/any/:any', default: 'default' do |any, params|
+      erb 'watch:'+String(any)+String(params), title: 'movie time'
     end
 
     on( '/login', name:'', surname:'') do |name, sur|

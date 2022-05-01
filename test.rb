@@ -56,10 +56,11 @@ class TestApp < Test::Unit::TestCase
   # end
 
   def test_any
-    get '/any', options: 'default'
+    get '/any/any', options: 'default'
     assert last_response.ok?
     assert_equal last_response.status, 200
     assert last_response.body.match?('default')
+    assert last_response.body.match?('any')
   end
 
   def test_not_found
