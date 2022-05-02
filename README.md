@@ -9,10 +9,10 @@ Numb.new do
     res.write 'hello'
   end
 
-  on '/red' do
+  on '/:any' do
     res.redirect '/'
   end
 
-  
+
 end
 ```

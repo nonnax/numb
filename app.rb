@@ -63,6 +63,7 @@ App = Numb.new do
   not_found do
     erb 'notto foundo'
   end
+
   on '/inner' do
     halt AppB
   end
