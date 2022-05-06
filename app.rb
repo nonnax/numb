@@ -50,9 +50,9 @@ App = Numb.new do
   #
   # method with url test. numb.rb only
   #
-  # get '/all' do |all|
-     # erb 'watch:all'+String(all), title: 'all time'
-  # end
+  get '/all' do |all|
+     erb 'watch:all'+String(all), title: 'all time'
+  end
   #
   # test position in prog flow
   #

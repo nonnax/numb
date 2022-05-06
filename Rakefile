@@ -6,3 +6,8 @@ task :install do
   sh 'gem build numb.gemspec'
   sh 'sudo gem install numb-0.0.1.gem'
 end
+
+desc 'minitest'
+task :test do
+  sh 'ruby test.rb'
+end

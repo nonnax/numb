@@ -55,17 +55,20 @@ class Numb
   def halt(app)
     throw :halt, app
   end
+
   private def found
     res.status = 200
     yield
     res.status = 404 if res.body.empty? && res.status == 200
   end
+
   private def run_once
     return if @once
 
     @once = true
     yield
   end
+
   def run(&block)
     halt block.call
   end
