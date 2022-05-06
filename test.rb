@@ -44,16 +44,16 @@ class TestApp < Test::Unit::TestCase
   end
 
   # numb.rb only
-  # def test_method_with_urls
-    # get '/all'
-    # assert_equal last_response.status, 200
-  # end
+  def test_method_with_urls
+    get '/all'
+    assert_equal last_response.status, 200
+  end
 
-  # def test_method_with_url_with_params
-    # get '/all', arg:'arg'
-    # assert_equal last_response.status, 200
-    # assert last_response.body.include?('arg')
-  # end
+  def test_method_with_url_with_params
+    get '/all', arg:'arg'
+    assert_equal last_response.status, 200
+    assert last_response.body.include?('arg')
+  end
 
   def test_any
     get '/any/any', options: 'default'
@@ -66,6 +66,6 @@ class TestApp < Test::Unit::TestCase
   def test_not_found
     get '/adgads/asdfa'
     assert_equal last_response.status, 404
-    # assert_equal last_response.body, 'notto foundo'
+    assert_equal last_response.body, 'notto foundo'
   end
 end
